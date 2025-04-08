@@ -37,7 +37,7 @@ export default function SignupScreen() {
         displayName: name,
       })
       // Navigation will be handled by the auth state listener in _layout.tsx
-    } catch (error) {
+    } catch (error: any) {
       let errorMessage = "Registration failed. Please try again."
       if (error.code === "auth/email-already-in-use") {
         errorMessage = "Email is already in use"
@@ -129,4 +129,3 @@ export default function SignupScreen() {
     </ScrollView>
   )
 }
-

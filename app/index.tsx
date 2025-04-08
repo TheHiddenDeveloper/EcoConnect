@@ -40,6 +40,7 @@ export default function SplashScreen() {
           opacity: fadeAnim,
           transform: [{ scale: scaleAnim }],
         }}
+        className="items-center"
       >
         <View className="items-center">
           <Image source={require("../assets/carbon-logo.png")} className="w-40 h-40" resizeMode="contain" />
@@ -52,4 +53,3 @@ export default function SplashScreen() {
     </View>
   )
 }
-

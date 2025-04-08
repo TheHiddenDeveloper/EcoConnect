@@ -76,18 +76,18 @@ export default function RootLayout() {
     <ThemeProvider value={{
       dark: colorScheme === "dark",
       colors: {
-        primary: colorScheme === "dark" ? "#fff" : "#000",
-        background: colorScheme === "dark" ? "#000" : "#fff",
-        card: colorScheme === "dark" ? "#1c1c1c" : "#fff",
-        text: colorScheme === "dark" ? "#fff" : "#000",
-        border: colorScheme === "dark" ? "#272729" : "#d8d8d8",
-        notification: "#ff453a",
+        primary: '#0A84FF',
+        background: colorScheme === 'dark' ? '#000000' : '#FFFFFF',
+        card: colorScheme === 'dark' ? '#1C1C1E' : '#FFFFFF',
+        text: colorScheme === 'dark' ? '#FFFFFF' : '#000000',
+        border: colorScheme === 'dark' ? '#38383A' : '#C6C6C8',
+        notification: '#FF453A'
       },
       fonts: {
-        regular: { fontFamily: "System", fontWeight: "400" },
-        medium: { fontFamily: "System", fontWeight: "500" },
-        bold: { fontFamily: "System", fontWeight: "700" },
-        heavy: { fontFamily: "System", fontWeight: "900" }
+        regular: { fontFamily: 'System', fontWeight: 'normal' },
+        medium: { fontFamily: 'System', fontWeight: '500' },
+        bold: { fontFamily: 'System', fontWeight: 'bold' },
+        heavy: { fontFamily: 'System', fontWeight: '900' }
       }
     }}>
       <StatusBar style="auto" />
@@ -95,4 +95,3 @@ export default function RootLayout() {
     </ThemeProvider>
   )
 }
-

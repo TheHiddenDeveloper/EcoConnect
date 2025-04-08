@@ -22,7 +22,7 @@ export default function LoginScreen() {
     try {
       await signInWithEmailAndPassword(auth, email, password)
       // Navigation will be handled by the auth state listener in _layout.tsx
-    } catch (error) {
+    } catch (error: any) {
       let errorMessage = "Login failed. Please try again."
       if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
         errorMessage = "Invalid email or password"
@@ -94,4 +94,3 @@ export default function LoginScreen() {
     </View>
   )
 }
-

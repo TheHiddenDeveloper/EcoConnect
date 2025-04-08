@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef } from "react"
-import { View, Text, Image, FlatList, Dimensions, TouchableOpacity } from "react-native"
+import { View, Text, Image, FlatList, Dimensions, TouchableOpacity, ViewToken } from "react-native"
 import { StatusBar } from "expo-status-bar"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useRouter } from "expo-router"
@@ -32,16 +32,18 @@ const slides = [
 export default function OnboardingScreen() {
   const router = useRouter()
   const [currentIndex, setCurrentIndex] = useState(0)
-  const slidesRef = useRef(null)
+  const slidesRef = useRef<FlatList>(null)
 
-  const viewableItemsChanged = useRef(({ viewableItems }) => {
-    setCurrentIndex(viewableItems[0].index)
+  const viewableItemsChanged = useRef(({ viewableItems }: { viewableItems: Array<ViewToken> }) => {
+    if (viewableItems[0]?.index !== null && viewableItems[0]?.index !== undefined) {
+      setCurrentIndex(viewableItems[0].index)
+    }
   }).current
 
   const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current
 
   const scrollTo = async () => {
-    if (currentIndex < slides.length - 1) {
+    if (currentIndex < slides.length - 1 && slidesRef.current) {
       slidesRef.current.scrollToIndex({ index: currentIndex + 1 })
     } else {
       try {
@@ -111,4 +113,3 @@ export default function OnboardingScreen() {
     </View>
   )
 }
-
