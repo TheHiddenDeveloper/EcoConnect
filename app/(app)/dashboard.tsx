@@ -1,11 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import { View, Text, ScrollView, TouchableOpacity, Image, FlatList } from "react-native"
+import { View, ScrollView, Image, FlatList } from "react-native"
 import { StatusBar } from "expo-status-bar"
 import { signOut } from "firebase/auth"
 import { auth } from "../../firebase/config"
-import { Home, BarChart2, Compass, ShoppingCart, User } from "lucide-react-native"
+import { Chrome as Home, ChartBar as BarChart2, Compass, ShoppingCart } from "lucide-react-native"
+import { Surface, Text, Button, Card, IconButton, BottomNavigation } from "react-native-paper"
 
 // Sample data for carbon credits
 const carbonCredits = [
@@ -54,7 +55,7 @@ const portfolio = [
 ]
 
 export default function DashboardScreen() {
-  const [activeTab, setActiveTab] = useState("home")
+  const [index, setIndex] = useState(0)
 
   const handleSignOut = async () => {
     try {
@@ -65,53 +66,50 @@ export default function DashboardScreen() {
     }
   }
 
-  return (
-    <View className="flex-1 bg-gray-50">
-      <StatusBar style="dark" />
+  const routes = [
+    { key: "home", title: "Home", focusedIcon: "home" },
+    { key: "market", title: "Market", focusedIcon: "shopping" },
+    { key: "explore", title: "Explore", focusedIcon: "compass" },
+    { key: "portfolio", title: "Portfolio", focusedIcon: "chart-line" },
+  ]
 
-      {/* Header */}
-      <View className="bg-green-800 pt-12 pb-4 px-6">
+  return (
+    <View className="flex-1 bg-gray-50 dark:bg-gray-900">
+      <StatusBar style="auto" />
+
+      <Surface className="pt-12 pb-4 px-6">
         <View className="flex-row justify-between items-center">
           <View>
-            <Text className="text-white text-lg font-bold">Hello, {auth.currentUser?.displayName || "User"}</Text>
-            <Text className="text-green-100">Welcome to Carbon Credits</Text>
+            <Text variant="titleLarge">Hello, {auth.currentUser?.displayName || "User"}</Text>
+            <Text variant="bodyMedium">Welcome to Carbon Credits</Text>
           </View>
-          <TouchableOpacity onPress={handleSignOut}>
-            <View className="bg-green-700 p-2 rounded-full">
-              <User size={20} color="white" />
-            </View>
-          </TouchableOpacity>
+          <IconButton icon="logout" size={24} onPress={handleSignOut} />
         </View>
 
-        {/* Balance Card */}
-        <View className="bg-white rounded-xl p-4 mt-4 shadow-sm">
-          <Text className="text-gray-500">Your Carbon Balance</Text>
-          <Text className="text-3xl font-bold text-gray-800 mt-1">173.75 tCO₂e</Text>
-          <View className="flex-row justify-between mt-2">
-            <View>
-              <Text className="text-gray-500 text-xs">Market Value</Text>
-              <Text className="text-gray-800 font-semibold">$2,105.50</Text>
+        <Card className="mt-4">
+          <Card.Content>
+            <Text variant="bodyMedium">Your Carbon Balance</Text>
+            <Text variant="headlineLarge" className="mt-1">173.75 tCO₂e</Text>
+            <View className="flex-row justify-between mt-2">
+              <View>
+                <Text variant="bodySmall">Market Value</Text>
+                <Text variant="titleMedium">$2,105.50</Text>
+              </View>
+              <View>
+                <Text variant="bodySmall">Impact Offset</Text>
+                <Text variant="titleMedium">15.2 Tons</Text>
+              </View>
+              <Button mode="contained-tonal">Trade</Button>
             </View>
-            <View>
-              <Text className="text-gray-500 text-xs">Impact Offset</Text>
-              <Text className="text-gray-800 font-semibold">15.2 Tons</Text>
-            </View>
-            <TouchableOpacity className="bg-green-800 px-3 py-1 rounded-full">
-              <Text className="text-white font-medium">Trade</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
+          </Card.Content>
+        </Card>
+      </Surface>
 
-      {/* Main Content */}
       <ScrollView className="flex-1 px-6 pt-4">
-        {/* Marketplace Section */}
         <View className="mb-6">
           <View className="flex-row justify-between items-center mb-4">
-            <Text className="text-xl font-bold text-gray-800">Marketplace</Text>
-            <TouchableOpacity>
-              <Text className="text-green-800 font-medium">See All</Text>
-            </TouchableOpacity>
+            <Text variant="titleLarge">Marketplace</Text>
+            <Button mode="text">See All</Button>
           </View>
 
           <FlatList
@@ -120,101 +118,81 @@ export default function DashboardScreen() {
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <TouchableOpacity className="bg-white mr-4 rounded-xl shadow-sm overflow-hidden w-64">
-                <Image source={item.image} className="w-full h-32" resizeMode="cover" />
-                <View className="p-3">
-                  <Text className="text-gray-800 font-bold">{item.name}</Text>
-                  <Text className="text-gray-500 text-xs">{item.location}</Text>
+              <Card className="mr-4 w-64">
+                <Card.Cover source={item.image} />
+                <Card.Content className="p-3">
+                  <Text variant="titleMedium">{item.name}</Text>
+                  <Text variant="bodySmall">{item.location}</Text>
                   <View className="flex-row justify-between items-center mt-2">
-                    <Text className="text-green-800 font-bold">${item.price.toFixed(2)}</Text>
-                    <TouchableOpacity className="bg-green-800 px-3 py-1 rounded-full">
-                      <Text className="text-white text-xs font-medium">Buy Now</Text>
-                    </TouchableOpacity>
+                    <Text variant="titleMedium">${item.price.toFixed(2)}</Text>
+                    <Button mode="contained-tonal" compact>Buy Now</Button>
                   </View>
-                </View>
-              </TouchableOpacity>
+                </Card.Content>
+              </Card>
             )}
           />
         </View>
 
-        {/* Portfolio Section */}
         <View className="mb-6">
           <View className="flex-row justify-between items-center mb-4">
-            <Text className="text-xl font-bold text-gray-800">Your Portfolio</Text>
-            <TouchableOpacity>
-              <Text className="text-green-800 font-medium">Details</Text>
-            </TouchableOpacity>
+            <Text variant="titleLarge">Your Portfolio</Text>
+            <Button mode="text">Details</Button>
           </View>
 
           {portfolio.map((item) => (
-            <View key={item.id} className="bg-white mb-3 p-4 rounded-xl shadow-sm">
-              <View className="flex-row justify-between items-center">
-                <View>
-                  <Text className="text-gray-800 font-bold">{item.name}</Text>
-                  <Text className="text-gray-500 text-xs">{item.amount} Credits</Text>
+            <Card key={item.id} className="mb-3">
+              <Card.Content>
+                <View className="flex-row justify-between items-center">
+                  <View>
+                    <Text variant="titleMedium">{item.name}</Text>
+                    <Text variant="bodySmall">{item.amount} Credits</Text>
+                  </View>
+                  <View>
+                    <Text variant="titleMedium">${item.value.toFixed(2)}</Text>
+                    <Text
+                      variant="bodySmall"
+                      className={item.change.includes("+") ? "text-green-600" : "text-red-600"}
+                    >
+                      {item.change}
+                    </Text>
+                  </View>
                 </View>
-                <View>
-                  <Text className="text-gray-800 font-bold">${item.value.toFixed(2)}</Text>
-                  <Text className={`text-xs ${item.change.includes("+") ? "text-green-600" : "text-red-600"}`}>
-                    {item.change}
-                  </Text>
-                </View>
-              </View>
-            </View>
+              </Card.Content>
+            </Card>
           ))}
 
-          <TouchableOpacity className="bg-gray-100 p-3 rounded-xl items-center">
-            <Text className="text-green-800 font-medium">View All Transactions</Text>
-          </TouchableOpacity>
+          <Button mode="outlined" className="mb-6">View All Transactions</Button>
         </View>
 
-        {/* Impact Section */}
         <View className="mb-8">
-          <Text className="text-xl font-bold text-gray-800 mb-4">Your Impact</Text>
-          <View className="bg-white p-4 rounded-xl shadow-sm">
-            <View className="flex-row justify-between mb-4">
-              <View className="items-center">
-                <Text className="text-gray-500 text-xs">Trees Planted</Text>
-                <Text className="text-gray-800 font-bold text-lg">124</Text>
+          <Text variant="titleLarge" className="mb-4">Your Impact</Text>
+          <Card>
+            <Card.Content>
+              <View className="flex-row justify-between mb-4">
+                <View className="items-center">
+                  <Text variant="bodySmall">Trees Planted</Text>
+                  <Text variant="headlineSmall">124</Text>
+                </View>
+                <View className="items-center">
+                  <Text variant="bodySmall">CO₂ Reduced</Text>
+                  <Text variant="headlineSmall">15.2 Tons</Text>
+                </View>
+                <View className="items-center">
+                  <Text variant="bodySmall">Projects Supported</Text>
+                  <Text variant="headlineSmall">7</Text>
+                </View>
               </View>
-              <View className="items-center">
-                <Text className="text-gray-500 text-xs">CO₂ Reduced</Text>
-                <Text className="text-gray-800 font-bold text-lg">15.2 Tons</Text>
-              </View>
-              <View className="items-center">
-                <Text className="text-gray-500 text-xs">Projects Supported</Text>
-                <Text className="text-gray-800 font-bold text-lg">7</Text>
-              </View>
-            </View>
-            <TouchableOpacity className="bg-green-50 p-3 rounded-xl items-center">
-              <Text className="text-green-800 font-medium">View Impact Report</Text>
-            </TouchableOpacity>
-          </View>
+              <Button mode="outlined">View Impact Report</Button>
+            </Card.Content>
+          </Card>
         </View>
       </ScrollView>
 
-      {/* Bottom Navigation */}
-      <View className="flex-row justify-between items-center bg-white px-6 py-3 border-t border-gray-200">
-        <TouchableOpacity className="items-center" onPress={() => setActiveTab("home")}>
-          <Home size={24} color={activeTab === "home" ? "#166534" : "#9ca3af"} />
-          <Text className={activeTab === "home" ? "text-green-800" : "text-gray-400"}>Home</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity className="items-center" onPress={() => setActiveTab("market")}>
-          <ShoppingCart size={24} color={activeTab === "market" ? "#166534" : "#9ca3af"} />
-          <Text className={activeTab === "market" ? "text-green-800" : "text-gray-400"}>Market</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity className="items-center" onPress={() => setActiveTab("explore")}>
-          <Compass size={24} color={activeTab === "explore" ? "#166534" : "#9ca3af"} />
-          <Text className={activeTab === "explore" ? "text-green-800" : "text-gray-400"}>Explore</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity className="items-center" onPress={() => setActiveTab("portfolio")}>
-          <BarChart2 size={24} color={activeTab === "portfolio" ? "#166534" : "#9ca3af"} />
-          <Text className={activeTab === "portfolio" ? "text-green-800" : "text-gray-400"}>Portfolio</Text>
-        </TouchableOpacity>
-      </View>
+      <BottomNavigation
+        navigationState={{ index, routes }}
+        onIndexChange={setIndex}
+        renderScene={() => null}
+      />
     </View>
   )
 }

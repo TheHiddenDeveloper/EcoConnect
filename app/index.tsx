@@ -4,6 +4,7 @@ import { useEffect } from "react"
 import { View, Image, Animated } from "react-native"
 import { StatusBar } from "expo-status-bar"
 import { useRouter } from "expo-router"
+import "../global.css"
 
 export default function SplashScreen() {
   const router = useRouter()

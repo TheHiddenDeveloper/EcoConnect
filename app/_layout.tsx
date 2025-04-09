@@ -10,11 +10,44 @@ import { useColorScheme } from "react-native"
 import { ThemeProvider } from "@react-navigation/native"
 import { SplashScreen } from "expo-router"
 import { useFonts } from "expo-font"
+import { PaperProvider, MD3LightTheme, MD3DarkTheme, adaptNavigationTheme } from "react-native-paper"
+import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme } from "@react-navigation/native"
+import { useFrameworkReady } from '@/hooks/useFrameworkReady'
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync()
 
+const { LightTheme, DarkTheme } = adaptNavigationTheme({
+  reactNavigationLight: NavigationDefaultTheme,
+  reactNavigationDark: NavigationDarkTheme,
+})
+
+const CombinedDefaultTheme = {
+  ...MD3LightTheme,
+  ...LightTheme,
+  colors: {
+    ...MD3LightTheme.colors,
+    ...LightTheme.colors,
+    primary: "#166534",
+    secondary: "#15803d",
+  },
+  fonts: MD3LightTheme.fonts,
+}
+
+const CombinedDarkTheme = {
+  ...MD3DarkTheme,
+  ...DarkTheme,
+  colors: {
+    ...MD3DarkTheme.colors,
+    ...DarkTheme.colors,
+    primary: "#22c55e",
+    secondary: "#16a34a",
+  },
+  fonts: MD3DarkTheme.fonts,
+}
+
 export default function RootLayout() {
+  useFrameworkReady();
   const [loaded] = useFonts({
     // You can add custom fonts here if needed
   })
@@ -22,6 +55,7 @@ export default function RootLayout() {
   const router = useRouter()
   const segments = useSegments()
   const colorScheme = useColorScheme()
+  const theme = colorScheme === "dark" ? CombinedDarkTheme : CombinedDefaultTheme
 
   useEffect(() => {
     if (!loaded) {
@@ -73,25 +107,11 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={{
-      dark: colorScheme === "dark",
-      colors: {
-        primary: '#0A84FF',
-        background: colorScheme === 'dark' ? '#000000' : '#FFFFFF',
-        card: colorScheme === 'dark' ? '#1C1C1E' : '#FFFFFF',
-        text: colorScheme === 'dark' ? '#FFFFFF' : '#000000',
-        border: colorScheme === 'dark' ? '#38383A' : '#C6C6C8',
-        notification: '#FF453A'
-      },
-      fonts: {
-        regular: { fontFamily: 'System', fontWeight: 'normal' },
-        medium: { fontFamily: 'System', fontWeight: '500' },
-        bold: { fontFamily: 'System', fontWeight: 'bold' },
-        heavy: { fontFamily: 'System', fontWeight: '900' }
-      }
-    }}>
-      <StatusBar style="auto" />
-      <Slot />
-    </ThemeProvider>
+    <PaperProvider theme={CombinedDefaultTheme}>
+      <ThemeProvider value={colorScheme === "dark" ? NavigationDarkTheme : NavigationDefaultTheme}>
+        <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
+        <Slot />
+      </ThemeProvider>
+    </PaperProvider>
   )
 }

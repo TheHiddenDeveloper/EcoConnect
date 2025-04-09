@@ -1,20 +1,21 @@
 "use client"
 
 import { useState } from "react"
-import { View, Text, TextInput, TouchableOpacity, Image, ActivityIndicator, Alert } from "react-native"
+import { View } from "react-native"
 import { StatusBar } from "expo-status-bar"
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { auth } from "../../firebase/config"
 import { Link } from "expo-router"
+import { TextInput, Button, Text, Surface } from "react-native-paper"
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleLogin = async () => {
     if (email === "" || password === "") {
-      Alert.alert("Error", "Please fill in all fields")
       return
     }
 
@@ -23,73 +24,68 @@ export default function LoginScreen() {
       await signInWithEmailAndPassword(auth, email, password)
       // Navigation will be handled by the auth state listener in _layout.tsx
     } catch (error: any) {
-      let errorMessage = "Login failed. Please try again."
-      if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
-        errorMessage = "Invalid email or password"
-      } else if (error.code === "auth/invalid-email") {
-        errorMessage = "Please enter a valid email address"
-      }
-      Alert.alert("Error", errorMessage)
       setLoading(false)
     }
   }
 
   return (
-    <View className="flex-1 bg-white">
-      <StatusBar style="dark" />
+    <View className="flex-1 bg-white dark:bg-gray-900">
+      <StatusBar style="auto" />
       <View className="flex-1 justify-center px-8">
-        <View className="items-center mb-8">
-          <Image source={require("../../assets/carbon-logo.png")} className="w-24 h-24" resizeMode="contain" />
-          <Text className="text-green-800 text-3xl font-bold mt-4">Welcome Back</Text>
-          <Text className="text-gray-500 text-base mt-2">Sign in to your account</Text>
-        </View>
+        <Surface className="p-8 rounded-2xl">
+          <Text className="text-3xl font-bold text-center mb-2" variant="headlineMedium">Welcome Back</Text>
+          <Text className="text-base text-center mb-8" variant="bodyLarge">Sign in to your account</Text>
 
-        <View className="mb-4">
-          <Text className="text-gray-700 mb-2 font-medium">Email</Text>
           <TextInput
-            className="bg-gray-100 px-4 py-3 rounded-lg"
-            placeholder="Enter your email"
+            label="Email"
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
             autoCapitalize="none"
+            mode="outlined"
+            className="mb-4"
           />
-        </View>
 
-        <View className="mb-6">
-          <Text className="text-gray-700 mb-2 font-medium">Password</Text>
           <TextInput
-            className="bg-gray-100 px-4 py-3 rounded-lg"
-            placeholder="Enter your password"
+            label="Password"
             value={password}
             onChangeText={setPassword}
-            secureTextEntry
+            secureTextEntry={!showPassword}
+            mode="outlined"
+            className="mb-2"
+            right={
+              <TextInput.Icon
+                icon={showPassword ? "eye-off" : "eye"}
+                onPress={() => setShowPassword(!showPassword)}
+              />
+            }
           />
-          <TouchableOpacity className="self-end mt-2">
-            <Text className="text-green-800 font-medium">Forgot Password?</Text>
-          </TouchableOpacity>
-        </View>
 
-        <TouchableOpacity
-          className="bg-green-800 py-4 rounded-lg items-center"
-          onPress={handleLogin}
-          disabled={loading}
-        >
-          {loading ? (
-            <ActivityIndicator color="white" />
-          ) : (
-            <Text className="text-white font-bold text-base">Sign In</Text>
-          )}
-        </TouchableOpacity>
+          <Button
+            onPress={() => {}}
+            className="self-end mb-6"
+            mode="text"
+          >
+            Forgot Password?
+          </Button>
 
-        <View className="flex-row justify-center mt-6">
-          <Text className="text-gray-600">Don't have an account? </Text>
-          <Link href="/(auth)/signup" asChild>
-            <TouchableOpacity>
-              <Text className="text-green-800 font-bold">Sign Up</Text>
-            </TouchableOpacity>
-          </Link>
-        </View>
+          <Button
+            mode="contained"
+            onPress={handleLogin}
+            loading={loading}
+            disabled={loading}
+            className="mb-6"
+          >
+            Sign In
+          </Button>
+
+          <View className="flex-row justify-center">
+            <Text variant="bodyMedium">Don't have an account? </Text>
+            <Link href="/(auth)/signup" asChild>
+              <Button mode="text" compact>Sign Up</Button>
+            </Link>
+          </View>
+        </Surface>
       </View>
     </View>
   )
