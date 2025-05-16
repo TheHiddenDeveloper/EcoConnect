@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "562945240089",
+    "project_id": "ecoconnect-era",
+    "storage_bucket": "ecoconnect-era.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562945240089:android:e5a482e2a891e8abf7ce88",
+        "android_client_info": {
+          "package_name": "com.example.eco_connect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "562945240089-vuala7bhljj3fmho2psr1scl5hdvra4q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.eco_connect",
+            "certificate_hash": "c959e1727baa94ecc98346ab0c43158ead51d57e"
+          }
+        },
+        {
+          "client_id": "562945240089-r737toks7of6mkm8qtq4jk5n5pqouq4q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5lzwNMQ8IoEnr0xVeM8edZ_1HXNJRhWU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "562945240089-r737toks7of6mkm8qtq4jk5n5pqouq4q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
