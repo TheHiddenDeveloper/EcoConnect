@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "562945240089",
+    "firebase_url": "https://ecoconnect-era-default-rtdb.firebaseio.com",
     "project_id": "ecoconnect-era",
     "storage_bucket": "ecoconnect-era.firebasestorage.app"
   },
