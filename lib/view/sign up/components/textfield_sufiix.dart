@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../res/app_color.dart';
 
 class TextFieldSufix extends StatelessWidget {
   const TextFieldSufix({super.key, required this.icon, this.size = 18});
@@ -7,6 +6,7 @@ class TextFieldSufix extends StatelessWidget {
   final double size;
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Container(
@@ -14,27 +14,31 @@ class TextFieldSufix extends StatelessWidget {
         width: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: darkBackgroundColor,
+          color: theme.colorScheme.primary,
           boxShadow: [
             BoxShadow(
-              color: Colors.pinkAccent.withAlpha((.2 * 255).round()),
+              color: theme.colorScheme.secondary.withOpacity(0.2),
               offset: const Offset(1, 0),
             ),
             BoxShadow(
-              color: Colors.pinkAccent.withAlpha((.2 * 255).round()),
+              color: theme.colorScheme.secondary.withOpacity(0.2),
               offset: const Offset(0, 1),
             ),
             BoxShadow(
-              color: Colors.pinkAccent.withAlpha((.2 * 255).round()),
+              color: theme.colorScheme.secondary.withOpacity(0.2),
               offset: const Offset(-1, 0),
             ),
             BoxShadow(
-              color: Colors.pinkAccent.withAlpha((.2 * 255).round()),
+              color: theme.colorScheme.secondary.withOpacity(0.2),
               offset: const Offset(0, -1),
             ),
           ],
         ),
-        child: Icon(icon, color: Colors.white70, size: size),
+        child: Icon(
+          icon,
+          color: theme.colorScheme.onPrimary.withOpacity(0.7),
+          size: size,
+        ),
       ),
     );
   }

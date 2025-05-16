@@ -13,10 +13,10 @@ class SignInForm extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 40),
-        const Text(
+        Text(
           '  Email',
-          style: TextStyle(
-            color: Colors.white,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            color: Theme.of(context).colorScheme.onSurface,
             fontWeight: FontWeight.w400,
             fontSize: 17,
           ),
@@ -33,10 +33,10 @@ class SignInForm extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20),
-        const Text(
+        Text(
           '  Password',
-          style: TextStyle(
-            color: Colors.white,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            color: Theme.of(context).colorScheme.onSurface,
             fontWeight: FontWeight.w400,
             fontSize: 17,
           ),

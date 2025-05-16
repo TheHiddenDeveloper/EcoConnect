@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:eco_connect/view/sign%20up/components/signup_body.dart';
-import '../../res/app_color.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -11,8 +10,9 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: darkBackgroundColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(child: SignupBody()),
     );
   }

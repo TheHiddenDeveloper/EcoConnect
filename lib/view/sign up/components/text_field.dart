@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:eco_connect/view%20model/controller/signin_controller.dart';
 import 'package:eco_connect/view%20model/controller/signup_controller.dart';
 import 'package:eco_connect/view/sign%20up/components/textfield_sufiix.dart';
-import '../../../res/app_color.dart';
 
 class InputField extends StatelessWidget {
   InputField({
@@ -32,6 +31,7 @@ class InputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return AnimatedContainer(
       duration: const Duration(milliseconds: 500),
       padding: const EdgeInsets.all(1),
@@ -39,8 +39,11 @@ class InputField extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         gradient:
             focus
-                ? const LinearGradient(
-                  colors: [Colors.purpleAccent, Colors.pink],
+                ? LinearGradient(
+                  colors: [
+                    theme.colorScheme.primary,
+                    theme.colorScheme.secondary,
+                  ],
                 )
                 : null,
       ),
@@ -55,8 +58,8 @@ class InputField extends StatelessWidget {
           onChange();
         },
         obscureText: hideText ?? false,
-        style: const TextStyle(
-          color: Colors.white,
+        style: TextStyle(
+          color: theme.colorScheme.onPrimary,
           fontWeight: FontWeight.bold,
         ),
         decoration: InputDecoration(
@@ -81,19 +84,19 @@ class InputField extends StatelessWidget {
                             ),
                   )
                   : const SizedBox(),
-          fillColor: primaryColor,
+          fillColor: theme.colorScheme.primary.withOpacity(0.1),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: BorderSide.none,
           ),
-          hoverColor: Colors.pinkAccent,
+          hoverColor: theme.colorScheme.secondary.withOpacity(0.2),
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 30,
             vertical: 20,
           ),
           hintText: hint,
-          hintStyle: const TextStyle(
-            color: Colors.grey,
+          hintStyle: TextStyle(
+            color: theme.colorScheme.onPrimary.withOpacity(0.5),
             fontWeight: FontWeight.normal,
             fontSize: 12,
           ),
