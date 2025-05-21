@@ -59,7 +59,6 @@ macos/Flutter/App.framework
 # Android related
 android/.gradle/
 android/app/build/
-android/local.properties
 android/.idea/
 
 # Xcode related

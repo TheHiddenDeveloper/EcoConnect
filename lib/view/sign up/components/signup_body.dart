@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:eco_connect/res/routes/routes.dart';
 import 'package:eco_connect/view%20model/controller/signup_controller.dart';
 import 'package:eco_connect/view/sign%20up/components/signup_options.dart';
+import 'package:eco_connect/view model/services/navigation_service.dart';
 
 import 'appbar.dart';
 import 'button.dart';
@@ -46,7 +46,7 @@ class SignupBody extends StatelessWidget {
             Align(
               alignment: Alignment.center,
               child: GestureDetector(
-                onTap: () => Get.toNamed(Routes.signInScreen),
+                onTap: () => NavigationService.toLogin(),
                 child: RichText(
                   text: TextSpan(
                     children: [

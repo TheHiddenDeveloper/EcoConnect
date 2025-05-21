@@ -8,6 +8,7 @@ import 'package:eco_connect/utils/utils.dart';
 import 'package:eco_connect/view%20model/controller/signin_controller.dart';
 import '../../../view model/controller/signup_controller.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:eco_connect/view model/services/navigation_service.dart';
 
 class FirebaseServices {
   static final FirebaseAuth auth = FirebaseAuth.instance;
@@ -37,11 +38,13 @@ class FirebaseServices {
       });
 
       UserPref.setUser(name, email, uid);
+
       Utils.showSnackBar(
         'Sign up',
         "Account is successfully created",
         const Icon(Icons.done, color: Colors.white),
       );
+      NavigationService.toLogin();
       signUpController.setLoading(false);
     } catch (e) {
       Utils.showSnackBar(

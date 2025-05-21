@@ -1,3 +1,4 @@
+import 'package:eco_connect/view model/services/navigation_service.dart';
 import 'package:flutter/material.dart';
 
 class CustomBackButton extends StatelessWidget {
@@ -31,10 +32,9 @@ class CustomBackButton extends StatelessWidget {
           ),
         ],
       ),
-      child: Icon(
-        Icons.arrow_back_ios_new_rounded,
-        color: theme.colorScheme.onPrimary.withOpacity(0.7),
-        size: 18,
+      child: IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: () => NavigationService.back(),
       ),
     );
   }

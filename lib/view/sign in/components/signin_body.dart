@@ -6,6 +6,7 @@ import 'package:eco_connect/view/sign%20in/components/signin_bar.dart';
 import 'package:eco_connect/view/sign%20in/components/signin_input_form.dart';
 import '../../sign up/components/button.dart';
 import '../../sign up/components/signup_options.dart';
+import 'package:eco_connect/view model/services/navigation_service.dart';
 
 class SignInBody extends StatelessWidget {
   SignInBody({super.key});
@@ -43,7 +44,7 @@ class SignInBody extends StatelessWidget {
             Align(
               alignment: Alignment.center,
               child: GestureDetector(
-                onTap: () => Get.toNamed(Routes.signUpScreen),
+                onTap: () => NavigationService.toSignUp(),
                 child: RichText(
                   text: TextSpan(
                     children: [
